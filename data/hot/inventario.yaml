@@ -1,0 +1,12 @@
+# Massa funcional inicial do Cadastro de Estoque.
+# Valores reais de NF, localização e configuração serão definidos após validarmos o ambiente.
+inventario:
+  numero_ativo: dinamico
+  serial: dinamico
+  associar_funcionario: false
+
+defeito:
+  primeiro_cenario: DEF-002
+  dentro_garantia: true
+  tem_peca: true
+  status_esperado: AGUARDANDO REPARO

@@ -1,0 +1,5 @@
+robotframework==7.4.2
+robotframework-browser==20.2.0
+PyYAML==6.0.3
+robotframework-requests
+robotframework-pabot==5.2.2

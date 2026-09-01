@@ -1,0 +1,5 @@
+*** Variables ***
+${DEFAULT_PARALLEL_PROCESSES}       2
+${DEFAULT_EXECUTION_SCOPE}          framework
+${DEFAULT_OUTPUT_DIRECTORY}         reports
+${PARALLEL_TEST_LEVEL_SPLIT}        ${FALSE}

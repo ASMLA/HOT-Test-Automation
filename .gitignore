@@ -1,0 +1,29 @@
+.venv/
+__pycache__/
+*.py[cod]
+
+# IDE / sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Segredos e configuracoes locais
+.env
+.env.*
+!/.env.example
+secrets.yaml
+secrets.yml
+**/secrets.local.yaml
+**/secrets.local.yml
+
+# Saidas de execucao
+reports/*
+!reports/.gitkeep
+results/*
+!results/.gitkeep
+results/evidence/
+
+# Projeto HOT - evidencias/fixtures locais sensiveis ou temporarias
+data/fixtures/laudos/*.pdf
+data/fixtures/laudos/*.docx

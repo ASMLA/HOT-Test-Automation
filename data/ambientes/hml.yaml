@@ -1,0 +1,5 @@
+ambiente: hml
+aplicacao: HOT
+url_base: "${HOT_URL_BASE}"
+browser: chromium
+headless: false

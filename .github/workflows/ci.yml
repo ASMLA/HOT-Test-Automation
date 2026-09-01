@@ -1,0 +1,66 @@
+name: CI - Automacao HOT
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar-projeto:
+    name: Validar projeto HOT
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Exibir versoes base
+        run: python --version && node --version && npm --version && git --version
+
+      - name: Instalar dependencias Python
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Inicializar Browser Library e Playwright
+        run: rfbrowser init
+
+      - name: Validar stack de automacao
+        run: |
+          python -c "import robot, Browser, requests, yaml, importlib.metadata as m; print('Robot Framework:', robot.__version__); print('Browser Library:', m.version('robotframework-browser')); print('Dependencias Python: OK')"
+          rfbrowser --version
+
+      - name: Verificar se existem testes Robot
+        id: robot-tests
+        shell: bash
+        run: |
+          if find tests -type f -name "*.robot" | grep -q .; then
+            echo "existem_testes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "existem_testes=false" >> "$GITHUB_OUTPUT"
+            echo "Nenhuma suite .robot implementada ainda. Baseline tecnico validado."
+          fi
+
+      - name: Executar testes Robot
+        if: steps.robot-tests.outputs.existem_testes == 'true'
+        env:
+          HEADLESS: "true"
+        run: robot --outputdir reports tests
+
+      - name: Publicar relatorios
+        if: always() && steps.robot-tests.outputs.existem_testes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios-hot
+          path: reports/
+          if-no-files-found: ignore
