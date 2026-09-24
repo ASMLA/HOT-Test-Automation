@@ -1,29 +1,27 @@
+# Ambiente virtual Python
 .venv/
+
+# Sessão persistente do navegador
+.browser-profile/
+
+# Evidências locais de execução
+reports/evidencias/
+
+# Resultados gerados pelo Robot Framework / relatórios
+reports/*.html
+reports/*.xml
+reports/playwright-log.txt
+
+# Contadores locais de massa de teste
+.test-runtime/
+
+# Logs locais
+playwright-log.txt
+
+# Mapeamentos gerados localmente
+tools/mapeamentos/*.json
+tools/mapeamentos/*.txt
+
+# Python cache
 __pycache__/
-*.py[cod]
-
-# IDE / sistema operacional
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# Segredos e configuracoes locais
-.env
-.env.*
-!/.env.example
-secrets.yaml
-secrets.yml
-**/secrets.local.yaml
-**/secrets.local.yml
-
-# Saidas de execucao
-reports/*
-!reports/.gitkeep
-results/*
-!results/.gitkeep
-results/evidence/
-
-# Projeto HOT - evidencias/fixtures locais sensiveis ou temporarias
-data/fixtures/laudos/*.pdf
-data/fixtures/laudos/*.docx
+*.pyc

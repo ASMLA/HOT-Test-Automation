@@ -1,12 +1,25 @@
-# Massa funcional inicial do Cadastro de Estoque.
-# Valores reais de NF, localização e configuração serão definidos após validarmos o ambiente.
 inventario:
-  numero_ativo: dinamico
-  serial: dinamico
   associar_funcionario: false
+  nota_fiscal:
+    selecao: primeira_existente
+    indice_playwright: 1
+  localizacao:
+    origem: "Rio de Janeiro"
+    localizacao_ativo: "Rio de Janeiro"
+    estado: "Rio de Janeiro"
+  configuracao_equipamento:
+    regra: terceira_opcao_visual
+    indice_playwright: 2
 
 defeito:
-  primeiro_cenario: DEF-002
+  primeiro_cenario: DEF-001
+  tipo_defeito: "Teclado Quebrado"
+  fornecedor:
+    selecao: primeira_opcao
+    indice_playwright: 1
   dentro_garantia: true
-  tem_peca: true
-  status_esperado: AGUARDANDO REPARO
+  tem_peca_inicialmente: false
+  status_intermediario: "AGUARDANDO PEÇA"
+  status_apos_chegada_peca: "AGUARDANDO REPARO"
+  status_final: "EM ESTOQUE"
+  estado_final: "Equipamento Funcional"
