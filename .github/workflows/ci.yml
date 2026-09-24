@@ -51,16 +51,14 @@ jobs:
             echo "Nenhuma suite .robot implementada ainda. Baseline tecnico validado."
           fi
 
-      - name: Executar testes Robot
+      - name: Validar sintaxe e estrutura Robot Framework
         if: steps.robot-tests.outputs.existem_testes == 'true'
-        env:
-          HEADLESS: "true"
-        run: robot --outputdir reports tests
+        run: robot --dryrun --outputdir reports tests
 
-      - name: Publicar relatorios
+      - name: Publicar relatorios de validacao
         if: always() && steps.robot-tests.outputs.existem_testes == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: relatorios-hot
+          name: relatorios-hot-dryrun
           path: reports/
           if-no-files-found: ignore

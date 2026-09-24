@@ -276,7 +276,7 @@ Esse comando instala as dependências Node usadas pela Browser Library e baixa o
 Com a `.venv` ativa, execute:
 
 ```bat
-python --version && where python && where pip && node --version && npm --version && git --version && robot --version && rfbrowser --version && python -c "import sys; print('Executavel Python:', sys.executable); print('Versao completa:', sys.version)"
+python -c "import sys, robot, Browser, requests, yaml, importlib.metadata as m; print('Python:', sys.version.split()[0]); print('Python ativo:', sys.executable); print('Robot Framework:', robot.__version__); print('Browser Library:', m.version('robotframework-browser')); print('Requests:', m.version('robotframework-requests')); print('PyYAML:', m.version('PyYAML')); print('DEPENDENCIAS: OK')" && node --version && npm --version && git --version && rfbrowser --version
 ```
 
 A validação esperada é:
@@ -616,3 +616,13 @@ O primeiro cenário que será implementado ponta a ponta é o **DEF-002 — Dent
 - Histórico de versões: `CHANGELOG.md`
 
 Este README deve permanecer como o **ponto inicial de consulta do projeto**. Sempre que instalação, arquitetura, execução, CI/CD ou convenções importantes forem alteradas, este documento deve ser atualizado junto com o código.
+
+
+## Sessão persistente do navegador
+
+O projeto usa `New Persistent Context` da Browser Library com o diretório local `.browser-profile/`.
+Esse diretório preserva cookies e `localStorage` entre execuções, reduzindo a necessidade de repetir o login e o MFA do HOT.
+
+Na primeira execução, ou quando a sessão expirar, o teste abre o HOT e aguarda até 5 minutos para que o login e o Authenticator sejam concluídos manualmente. Assim que a Home for identificada, a automação continua.
+
+O diretório `.browser-profile/` é local, contém estado de autenticação e está ignorado pelo Git. Nunca deve ser versionado ou publicado como artefato.

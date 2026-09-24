@@ -1,37 +1,29 @@
 *** Settings ***
-Library           OperatingSystem
-Library     Browser
-Resource    ../../variables/environment.resource
-Resource    ../../variables/validation.resource
-Resource    ../../variables/resilience.resource
+Documentation    Capacidades técnicas compartilhadas de navegador para o HOT.
+Library          Browser
+Library          OperatingSystem
+
+*** Variables ***
+${BROWSER_PROFILE_DIR}    ${EXECDIR}${/}.browser-profile
+${BROWSER_TYPE}           chromium
+${BROWSER_HEADLESS}       False
+${BROWSER_TIMEOUT}        15s
 
 *** Keywords ***
 Open Browser Session
-    [Documentation]    Opens an isolated browser context using the central execution configuration.
-    ${headless}=    Resolve Headless Mode
-    New Browser    ${BROWSER}    headless=${headless}
-    New Context    viewport={'width': 1440, 'height': 900}
-    Set Browser Timeout    ${DEFAULT_UI_TIMEOUT}
+    [Documentation]    Abre um contexto persistente do Chromium para reutilizar cookies/local storage entre execuções.
+    Create Directory    ${BROWSER_PROFILE_DIR}
+    New Persistent Context
+    ...    userDataDir=${BROWSER_PROFILE_DIR}
+    ...    browser=${BROWSER_TYPE}
+    ...    headless=${BROWSER_HEADLESS}
+    ...    timeout=${BROWSER_TIMEOUT}
+    Set Browser Timeout    ${BROWSER_TIMEOUT}
 
 Close Browser Session
-    [Documentation]    Captures evidence when possible and closes the browser without masking the original test result.
-    Run Keyword And Ignore Error    Take Screenshot
-    Run Keyword And Ignore Error    Close Browser
+    [Documentation]    Fecha a sessão ao final do teste. O perfil persistente permanece em disco para a próxima execução.
+    Close Browser    ALL
 
-Validate Page Has No Known Technical Errors
-    [Documentation]    Checks the rendered page against the centrally maintained technical-error catalog.
-    ${body_text}=    Get Text    body
-    FOR    ${error_message}    IN    @{KNOWN_TECHNICAL_ERRORS}
-        Should Not Contain    ${body_text}    ${error_message}
-    END
-
-Validate Page Has No Known Technical Error
-    [Documentation]    Backward-compatible alias maintained for earlier framework consumers.
-    Validate Page Has No Known Technical Errors
-
-
-Resolve Headless Mode
-    [Documentation]    Resolves browser visibility from HEADLESS environment variable. Defaults to false for local execution.
-    ${headless_env}=    Get Environment Variable    HEADLESS    false
-    ${headless}=    Evaluate    str($headless_env).lower() in ('1','true','yes','on')
-    RETURN    ${headless}
+Abrir Sessão Persistente Do HOT
+    [Documentation]    Alias em português para uso futuro em suites HOT.
+    Open Browser Session
