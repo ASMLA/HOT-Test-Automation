@@ -2,6 +2,22 @@
 
 Todas as mudanças relevantes deste projeto serão registradas aqui.
 
+## [Unreleased]
+
+### Implementação
+
+- Implementado o primeiro cenário real `HOT-INV-DEF-001 - Defeito Dentro Da Garantia Sem Peça`.
+- Adicionados locators reais validados pelo mapeamento Playwright.
+- Adicionadas keywords de negócio para criação do inventário, defeito, garantia, peça e retorno ao estoque.
+- Adicionada massa dinâmica para Armário, Ativo, Serial e chamados.
+- Adicionadas fixtures PDF seguras para os laudos de teste.
+- Saídas de mapeamento JSON/TXT passam a ser ignoradas pelo Git.
+
+### Ponto para validar no primeiro run
+
+- A regra manual de "3ª opção da combo" está implementada como índice zero-based `2`.
+- O cenário parte da Home do HOT e pressupõe autenticação disponível para a sessão.
+
 ## [0.1.0] - 2026-09-01
 
 ### Documentação
